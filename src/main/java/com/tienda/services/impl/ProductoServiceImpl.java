@@ -19,7 +19,7 @@ public class ProductoServiceImpl implements ProductoService {
     private ProductoDao productoDao;
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<Producto> getProductos(boolean activos) {
         var lista = productoDao.findAll();
         if (activos) {
@@ -28,6 +28,7 @@ public class ProductoServiceImpl implements ProductoService {
         }
         return lista;
     }
+
     @Override
     @Transactional(readOnly = true)
     public Producto getProducto(Producto producto) {
@@ -44,6 +45,27 @@ public class ProductoServiceImpl implements ProductoService {
     @Transactional
     public void delete(Producto producto) {
         productoDao.delete(producto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> consultaAmpliada(double precioInf, double precioSup){
+    return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+            }
+
+    @Override
+    @Transactional(readOnly = true)
+    //Consulta JPQL
+    public List<Producto> consultaJPQL(double precioInf, double precioSup){
+     return productoDao.consultaJPQL(precioInf, precioSup);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    //consulta SQL
+    public List<Producto> consultaSQL(double precioInf, double precioSup){
+        return productoDao.consultaSQL(precioInf, precioSup);
+    
     }
 
 }
