@@ -67,5 +67,12 @@ public class ProductoServiceImpl implements ProductoService {
         return productoDao.consultaSQL(precioInf, precioSup);
     
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> consultaABC(){
+        return productoDao.findAllByOrderByDescripcionAsc();
+    
+    }
 
 }

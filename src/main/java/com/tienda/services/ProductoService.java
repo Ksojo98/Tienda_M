@@ -35,4 +35,6 @@ public interface ProductoService {
     //consulta SQL
     public List<Producto> consultaSQL(double precioInf, double precioSup);
 
+    public List<Producto> consultaABC();
+
 }

@@ -43,4 +43,6 @@ public interface ProductoDao extends JpaRepository<Producto, Long> {
             @Param("precioInf") double precioInf,
             @Param("precioSup") double precioSup);
 
+    public List<Producto> findAllByOrderByDescripcionAsc();
+
 }

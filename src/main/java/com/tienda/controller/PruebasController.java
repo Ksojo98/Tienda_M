@@ -91,4 +91,13 @@ public class PruebasController {
 
         return "/pruebas/listado2";
     }
+
+    @PostMapping("/consultaABC")
+    public String consultasABC(
+            Model model) {
+        var productos = productoService.consultaABC();
+        model.addAttribute("productos", productos);
+
+        return "/prueba/listado2";
+    }
 }

@@ -53,6 +53,13 @@ public class ProductoController {
         productoService.save(producto);
         return "redirect:/producto/listado";
     }
+    
+      @GetMapping("/ABC")
+    public String productosABC(Model model) {
+        var productos = productoService.consultaABC();
+        model.addAttribute("productos", productos);
+        return "producto/ABC"; 
+    }
 
     @GetMapping("/eliminar/{idProducto}")
     public String productoEliminar(Producto producto) {
