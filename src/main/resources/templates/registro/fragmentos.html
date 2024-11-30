@@ -68,5 +68,29 @@
                 </div>            
             </div>
         </section>
+        
+         <!-- salida.html fragmento que se utiliza para la salida/errores de usuarios -->
+           <section th:fragment="salida">
+            <div class="row p-10 justify-content-center">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4>[[${titulo}]]</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>[[${mensaje}]]</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a th:href='@{/}' 
+                               class='btn btn-primary'>
+                                <i class='fas fa-home'></i> [[#{accion.regresar}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
     </body>
 </html>
