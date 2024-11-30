@@ -29,12 +29,10 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
  * @author Moke
  */
 @Configuration
-
 public class ProjectConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
-
         var slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.getDefault());
         slr.setLocaleAttributeName("session.current.locale");
@@ -61,13 +59,15 @@ public class ProjectConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/registro/nuevo").setViewName("/registro/nuevo");
     }
+
     @Autowired
     private RutaPermitService rutaPermitService;
     @Autowired
     private RutaService rutaService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
         String[] rutaPermit = rutaPermitService.getRutaPermitsString();
         List<Ruta> rutas = rutaService.getRutas();
 
@@ -75,13 +75,13 @@ public class ProjectConfig implements WebMvcConfigurer {
             request.requestMatchers(rutaPermit).permitAll();
             for (Ruta ruta : rutas) {
                 request.requestMatchers(ruta.getPatron()).hasRole(ruta.getRolName());
+                System.out.println("[" + ruta.getPatron() + "] : [" + ruta.getRolName() + "]");
             }
         })
                 .formLogin((form) -> form
-                .loginPage("/login").permitAll()
-                )
+                .loginPage("/login").permitAll())
                 .logout((logout) -> logout.permitAll());
-
+        System.out.println(http.getSharedObjects().values().toString());
         return http.build();
     }
 
@@ -89,9 +89,9 @@ public class ProjectConfig implements WebMvcConfigurer {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
+    public void configurerGlobal(AuthenticationManagerBuilder builder)
+            throws Exception {
         builder.userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
-
 }

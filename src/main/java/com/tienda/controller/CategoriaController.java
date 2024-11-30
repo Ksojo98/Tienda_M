@@ -15,31 +15,30 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/categoria")
 public class CategoriaController {
-    
-    
+
     @Autowired
     private CategoriaService categoriaService;
-    
+
     @GetMapping("/listado")
-    public String Listado(Model model){
-        var lista=categoriaService.getCategorias(false);
-        
+    public String listado(Model model) {
+        var lista = categoriaService.getCategorias(false);
         model.addAttribute("categorias", lista);
         model.addAttribute("totalCategorias", lista.size());
-    return "/categoria/listado";
+        return "/categoria/listado";
     }
+
     @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
-    
+
     @PostMapping("/guardar")
     public String categoriaGuardar(Categoria categoria,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
+            @RequestParam("imagenFile") MultipartFile imagenFile) {
         if (!imagenFile.isEmpty()) {
             categoriaService.save(categoria);
             categoria.setRutaImagen(
                     firebaseStorageService.cargaImagen(
-                            imagenFile, 
-                            "categoria", 
+                            imagenFile,
+                            "categoria",
                             categoria.getIdCategoria()));
         }
         categoriaService.save(categoria);
@@ -59,3 +58,4 @@ public class CategoriaController {
         return "/categoria/modifica";
     }
 }
+

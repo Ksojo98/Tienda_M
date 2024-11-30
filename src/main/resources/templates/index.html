@@ -11,14 +11,12 @@ Mi primera página dinamica
        
     </head>
     <body>   
-        <header th:replace="~{layout/plantilla :: header}">
+        <header th:replace="~{layout/plantilla :: header}"/>
            
-        </header>
-
-       Hola Mundo...
-        <footer th:replace="~{layout/plantilla :: footer}">
+        <section th:replace="~{pruebas/fragmentos :: tarjetas}"/>
         
-        </footer>
+        <footer th:replace="~{layout/plantilla :: footer}"/>
+        
 
           </body>
 </html>

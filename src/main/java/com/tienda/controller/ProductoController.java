@@ -1,5 +1,4 @@
 package com.tienda.controller;
-//test
 
 import com.tienda.domain.Producto;
 import com.tienda.services.CategoriaService;
@@ -24,20 +23,35 @@ public class ProductoController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping("/listado")
-    public String listado(Model model) {
-        var lista = productoService.getProductos(false);
-        model.addAttribute("productos", lista);
-        model.addAttribute("totalProductos", lista.size());
-        
-        var categorias = categoriaService.getCategorias(false);
-        model.addAttribute("categorias", categorias);
-        
-        return "/producto/listado";
-    }
-
     @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
+
+   
+  @GetMapping("/listado")
+    public String listado(
+            @RequestParam(value = "ofertas", required = false, defaultValue = "false") boolean ofertas,
+            Model model) {
+        var productos = ofertas 
+                ? productoService.consultaAmpliada(0, 0)
+                : productoService.getProductos(false);
+        model.addAttribute("productos", productos);
+        model.addAttribute("ofertas", ofertas);
+        
+        // También añadimos las categorías para usarlas en la vista si es necesario
+        var categorias = categoriaService.getCategorias(false);
+        model.addAttribute("categorias", categorias);
+
+        return "producto/listado"; // Corrección: sin el prefijo "/"
+    }
+
+    @GetMapping("/ofertas")
+    public String productosEnOferta(Model model) {
+        var productos = productoService.consultaAmpliada(0, 0);
+        model.addAttribute("productos", productos);
+        return "producto/ofertas"; // Corrección: sin el prefijo "/"
+    }
+    
+    
 
     @PostMapping("/guardar")
     public String productoGuardar(Producto producto,
@@ -53,20 +67,15 @@ public class ProductoController {
         productoService.save(producto);
         return "redirect:/producto/listado";
     }
-    
-      @GetMapping("/ABC")
-    public String productosABC(Model model) {
-        var productos = productoService.consultaABC();
-        model.addAttribute("productos", productos);
-        return "producto/ABC"; 
-    }
 
+   
     @GetMapping("/eliminar/{idProducto}")
     public String productoEliminar(Producto producto) {
         productoService.delete(producto);
         return "redirect:/producto/listado";
     }
 
+  
     @GetMapping("/modificar/{idProducto}")
     public String productoModificar(Producto producto, Model model) {
         producto = productoService.getProducto(producto);
@@ -75,6 +84,6 @@ public class ProductoController {
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
         
-        return "/producto/modifica";
+        return "producto/modifica"; // Corrección: sin el prefijo "/"
     }
 }

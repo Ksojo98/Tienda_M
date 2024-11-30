@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.services.impl;
 
-/**
- *
- * @author Moke
- */
 import com.tienda.dao.UsuarioDao;
 import com.tienda.domain.Rol;
 import com.tienda.domain.Usuario;
@@ -32,26 +24,33 @@ public class UsuarioDetailsServiceImpl
     private UsuarioDao usuarioDao;
     @Autowired
     private HttpSession session;
+    
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) 
             throws UsernameNotFoundException {
+        
         //Se busca el usuario en la tabla usuarios por medio del username
         Usuario usuario = usuarioDao.findByUsername(username);
+        
         //Se valida si se encontró el usuario con el username pasado...
         if (usuario == null) {
             //El usuario NO se encontró
             throw new UsernameNotFoundException(username);
         }
+        
         //Si estamos acá entonces SI se encontró el usuario...
         //Guarmanos la imagen del usuario en una variable de session.
         session.removeAttribute("imagenUsuario");
         session.setAttribute("imagenUsuario", usuario.getRutaImagen());
+        
+        
         //Se deben recuperar los roles del usuario y crear un ArrayList con Roles de seguridad
         var roles = new ArrayList<GrantedAuthority>();
         //Se revisan los roles del usuario y se convierten en roles de seguridad
         for (Rol r: usuario.getRoles()) {
             roles.add(new SimpleGrantedAuthority("ROLE_"+r.getNombre()));
+            System.out.println("[ROLE_"+r.getNombre()+"]");
         }
         //Se retorna un usuario de Seguridad con roles incluídos...
         return new User(usuario.getUsername(),

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.tienda.dao;
 
 import com.tienda.domain.Producto;
@@ -11,38 +7,40 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 
-/**
- *
- * @author Moke
- */
 @EnableJpaRepositories
 public interface ProductoDao extends JpaRepository<Producto, Long> {
 
     // ConsultaAmpliada
-// Recupera los productos que están en un rango de precios ordenados por descripción
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
     public List<Producto> findByPrecioBetweenOrderByDescripcion(
-            double precioInf, double precioSup);
-
-// ConsultaJPQL
-// Recupera los productos que están en un rango de precios ordenados por descripción
+        double precioInf, double precioSup);
+   
+   
+    // ConsultaJPQL
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
     @Query(value = "SELECT a FROM Producto a "
             + "WHERE a.precio "
             + "BETWEEN :precioInf AND :precioSup "
             + "ORDER BY a.descripcion ASC")
-    public List<Producto> consultaJPQL(
-            @Param("precioInf") double precioInf,
-            @Param("precioSup") double precioSup);
+    public List<Producto> consultaJPQL (@Param("precioInf") double precioInf, 
+                                        @Param("precioSup") double precioSup);
 
-// ConsultaSQL
-// Recupera los productos que están en un rango de precios ordenados por descripción
+    // ConsultaSQL
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
     @Query(nativeQuery = true, value = "SELECT * FROM producto a "
             + "WHERE a.precio "
             + "BETWEEN :precioInf AND :precioSup "
             + "ORDER BY a.descripcion ASC")
-    public List<Producto> consultaSQL(
-            @Param("precioInf") double precioInf,
-            @Param("precioSup") double precioSup);
-
-    public List<Producto> findAllByOrderByDescripcionAsc();
-
+    public List<Producto> consultaSQL (@Param("precioInf") double precioInf, 
+                                       @Param("precioSup") double precioSup);
+    
+    
+    @Query(value = "SELECT p FROM Producto p WHERE p.precio = "
+            + "(SELECT MIN(p2.precio) FROM Producto p2 WHERE p2.categoria.idCategoria = p.categoria.idCategoria) "
+            + "ORDER BY p.categoria.descripcion ASC")
+    List<Producto> findCheapestProductPerCategory();
+    
+    
 }
+
+

@@ -1,27 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- *
- * @author Moke
- */
 @Data
 @Entity
-@Table(name = "producto")
+@Table(name = "Producto")
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
-   // private Long idCategoria; este valor ahora está en el objeto categoria
+    //private Long idCategoria; este valor ahora esta en el objeto catergoria
     private String descripcion;
     private String detalle;
     private double precio;
@@ -30,9 +23,8 @@ public class Producto implements Serializable {
     private boolean activo;
     
     @ManyToOne
-    @JoinColumn(name="id_Categoria")
+    @JoinColumn(name="id_categoria")
     private Categoria categoria;
-
 }
 
 /*
@@ -48,6 +40,4 @@ create table producto (
   PRIMARY KEY (id_producto),
   foreign key fk_producto_caregoria (id_categoria) references categoria(id_categoria)  
 )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-*/
+ */

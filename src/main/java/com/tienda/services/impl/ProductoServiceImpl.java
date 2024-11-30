@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.services.impl;
 
 import com.tienda.dao.ProductoDao;
@@ -23,9 +19,10 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> getProductos(boolean activos) {
         var lista = productoDao.findAll();
         if (activos) {
-            //se deben eliminar los inactivos
+            //Se deben eliminar de la lista... los inactivos
             lista.removeIf(c -> !c.isActivo());
         }
+
         return lista;
     }
 
@@ -46,33 +43,36 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
-
+    
+    
+    // ConsultaAmpliada
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
     @Override
     @Transactional(readOnly = true)
     public List<Producto> consultaAmpliada(double precioInf, double precioSup){
-    return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
-            }
-
+        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+    }
+  
+    // ConsultaJPQL
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
     @Override
     @Transactional(readOnly = true)
-    //Consulta JPQL
-    public List<Producto> consultaJPQL(double precioInf, double precioSup){
-     return productoDao.consultaJPQL(precioInf, precioSup);
+    public List<Producto> consultaJPQL (double precioInf, double precioSup){
+        return productoDao.consultaJPQL(precioInf, precioSup);
     }
 
     @Override
     @Transactional(readOnly = true)
-    //consulta SQL
-    public List<Producto> consultaSQL(double precioInf, double precioSup){
+    // ConsultaSQL
+    // Recupera los productos que están en un rango de precios ordenados por descripcion
+    public List<Producto> consultaSQL (double precioInf, double precioSup){
         return productoDao.consultaSQL(precioInf, precioSup);
-    
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> consultaABC(){
-        return productoDao.findAllByOrderByDescripcionAsc();
+    public List<Producto> getCheapestProductPerCategory() {
+        return productoDao.findCheapestProductPerCategory();
+    }    
     
-    }
-
 }
