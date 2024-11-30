@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.services.impl;
 
 import com.tienda.domain.Usuario;
@@ -18,10 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author Moke
- */
 @Service
 public class RegistroServiceImpl implements RegistroService {
 
@@ -72,8 +64,7 @@ public class RegistroServiceImpl implements RegistroService {
 
     @Autowired
     private FirebaseStorageService firebaseStorageService;
-    
-  
+    @Override
     public void habilitaUsuario(Usuario usuario, MultipartFile imagenFile) {
         var codigo = new BCryptPasswordEncoder();
         usuario.setPassword(codigo.encode(usuario.getPassword()));
@@ -99,7 +90,7 @@ public class RegistroServiceImpl implements RegistroService {
     private CorreoService correoService;
 
     //Continuar acá
-      private void enviarCorreoActivacion(Usuario usuario) throws MessagingException {
+    private void enviarCorreoActivacion(Usuario usuario) throws MessagingException {
         String mensaje = messageSource.getMessage("registro.correo.activar", null, Locale.getDefault());
         String asunto = messageSource.getMessage("registro.mensaje.activacion", null, Locale.getDefault());
         mensaje = String.format(mensaje,
@@ -120,13 +111,5 @@ public class RegistroServiceImpl implements RegistroService {
         return clave;
     }
 
-    @Override
-    public Model habilitarUsuario(Usuario usuario, MultipartFile imagenFile) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-  
-
-  
-
+ 
 }
