@@ -37,7 +37,23 @@
                                 <figure>
                                     <img th:src="${p.rutaImagen}"
                                          height="150"/>
-                                    <figcaption>¢[[${p.precio}]] ([[${p.existencias}]]) <i class="fas fa-cart-arrow-down"></i></figcaption>
+                                    <figcaption>¢[[${p.precio}]] ([[${p.existencias}]])
+                                        <form>
+                                          <input type ="hidden"
+                                                 name="idProducto"
+                                                 th:value="${p.idProducto}"/>
+                                           <input type ="hidden"
+                                                 name="existencia"
+                                                 th:value="${p.existencias}"/>
+                                           <button type="button"
+                                                   onclick="addCart(this.form)"
+                                                   class="btb btn-light">
+                                               <i class="fas fa-cart-arrow-down"></i>
+                                           </button>
+                                            
+                                        </form>
+                                        
+                                        </figcaption>
                                 </figure>
                             </div>
                             <div class="card-body">

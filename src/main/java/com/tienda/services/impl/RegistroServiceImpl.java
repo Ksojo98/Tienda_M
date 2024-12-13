@@ -103,7 +103,7 @@ public class RegistroServiceImpl implements RegistroService {
     }
 
     private String demeClave() {
-        String texto = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789abcdefghijklmnopqrstuvxyz_+-[]";
+        String texto = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789abcdefghijklmnopqrstuvxyz";
         String clave = "";
         for (int i = 0; i < 40; i++) {
             clave += texto.charAt((int) (Math.random() * texto.length()));
