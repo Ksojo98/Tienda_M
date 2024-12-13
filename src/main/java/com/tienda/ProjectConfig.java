@@ -23,6 +23,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
 /**
  *
@@ -94,4 +96,19 @@ public class ProjectConfig implements WebMvcConfigurer {
         builder.userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
+    
+    @Bean
+    public SpringResourceTemplateResolver revolver_0(){
+    SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
+    
+    resolver.setPrefix("classpath:/templates");
+    resolver.setSuffix(".html");
+    resolver.setTemplateMode(TemplateMode.HTML);
+    resolver.setOrder(0);
+    resolver.setCheckExistence(true);
+    
+    return resolver;
+    
+    }
+    
 }
